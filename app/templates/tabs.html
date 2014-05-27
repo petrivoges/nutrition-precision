@@ -1,0 +1,20 @@
+<!-- 
+  Create tabs with an icon and label, using the tabs-positive style. 
+  Each tab's child <ion-nav-view> directive will have its own 
+  navigation history that also transitions its views in and out.
+-->
+<ion-tabs class="tabs-icon-top fade-in-not-out">
+
+  <ion-tab title="Dashboard" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" href="#/tab/dash">
+    <ion-nav-view name="tab-dash"></ion-nav-view>
+  </ion-tab>
+
+  <ion-tab title="Food Groups" icon-on="ion-ios7-clock" icon-off="ion-ios7-clock-outline" href="#/tab/foodgroups">
+    <ion-nav-view name="tab-foodgroups"></ion-nav-view>
+  </ion-tab>
+
+  <ion-tab title="Account" badge="1" badge-style='badge-dark' icon-on="ion-ios7-gear" icon-off="ion-ios7-gear-outline" href="#/tab/account">
+    <ion-nav-view name="tab-account"></ion-nav-view>
+  </ion-tab>
+
+</ion-tabs>

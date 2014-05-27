@@ -1,0 +1,26 @@
+<!--
+  This template loads for the 'tab.friend-detail' state (app.js)
+  'firend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
+  The FriendsCtrl pulls data from the Friends service (service.js)
+  The Friends service returns an array of friend data
+-->
+<ion-view title="Foods">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon icon ion-ios7-star" 
+        ng-click="data.showDelete = !data.showDelete;">
+    </button>
+  </ion-nav-buttons>
+  <ion-content class="has-header">
+    <ion-list show-delete="data.showDelete">
+      <label class="item item-input nav-title-slide-ios7">
+        <i class="icon button-icon ion-ios7-search placeholder-icon"></i>
+        <input type="text" placeholder="Search" ng-model="food.description">
+      </label>
+      <ion-item ng-repeat="food in foods | filter:food" item="food" type="item-text-wrap" href="#/tab/fooddetail/{{food._id}}">
+        {{food.description}}
+        <ion-delete-button class="ion-ios7-star-outline" ng-click="onItemDelete(food._id)">
+        </ion-delete-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
