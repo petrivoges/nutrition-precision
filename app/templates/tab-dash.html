@@ -1,6 +1,16 @@
 <ion-view title="Dashboard">
-  <ion-content class="has-header padding">
-    <h1>Dash</h1>
-    <!-- <div id="chart"></div> -->
-  </ion-content>
+	<div class="bar bar-subheader">
+	    <div class="button-bar tab-bar">
+	        <a class="button">tab A</a>
+	        <a class="button">tab B</a>
+	        <a class="button">tab C</a>
+	    </div>
+	</div>
+	<ion-content class="has-header padding">
+	    <ion-list>
+	      <ion-item ng-repeat="nutrient in Nutrients" type="item-text-wrap" href="#">
+	        {{nutrient.name}}
+	      </ion-item>
+	    </ion-list>
+	</ion-content>
 </ion-view>

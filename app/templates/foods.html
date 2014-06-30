@@ -5,17 +5,23 @@
   The Friends service returns an array of friend data
 -->
 <ion-view title="Foods">
-  <ion-nav-buttons side="right">
-    <button class="button button-icon icon ion-ios7-star" 
-        ng-click="data.showDelete = !data.showDelete;">
-    </button>
-  </ion-nav-buttons>
-  <ion-content class="has-header">
-    <ion-list show-delete="data.showDelete">
-      <label class="item item-input nav-title-slide-ios7">
-        <i class="icon button-icon ion-ios7-search placeholder-icon"></i>
-        <input type="text" placeholder="Search" ng-model="food.description">
+  <ion-header-bar class="bar-light bar-subheader">
+    <div class="bar bar-header item-input-inset search-bar">
+      <label class="item-input-wrapper">
+          <i class="icon ion-android-search placeholder-icon"></i>
+          <input type="search"
+            placeholder="Filter"
+            ng-model="food.description"
+            ng-focus="searchFocused = true"
+            ng-blur="searchFocused = false">
       </label>
+      <button class="button button-clear" ng-if="food.description.length" ng-click="clearSearch()">
+          <i class="icon ion-android-close"></i>
+      </button>
+    </div>
+  </ion-header-bar>
+  <ion-content class="has-header">
+    <ion-list>
       <ion-item ng-repeat="food in foods | filter:food" item="food" type="item-text-wrap" href="#/tab/fooddetail/{{food._id}}">
         {{food.description}}
         <ion-delete-button class="ion-ios7-star-outline" ng-click="onItemDelete(food._id)">

@@ -1,30 +1,16 @@
 'use strict';
 angular.module('NutritionPrecision.controllers', [])
 
-.controller('DashCtrl', function($scope) {
-  // var chart = c3.generate({
-  //   data: {
-  //       columns: [
-  //           ['data1', 30],
-  //           ['data2', 50],
-  //           ['data3', 13],
-  //           ['data4', 25],
-  //           ['data5', 43],
-  //           ['data6', 10]
-  //       ],
-  //       types: {
-  //         data1: 'bar',
-  //         data2: 'bar',
-  //         data3: 'bar',
-  //         data4: 'bar',
-  //         data5: 'bar',
-  //         data6: 'bar'
-  //       }
-  //   },
-  //   color: {
-  //       pattern: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
-  //   }
-  // });
+.controller('DashCtrl', function($scope,$http) {
+  $http.get('/static/nutrients.json',{ cache: true})
+    .success(function(res){
+      $scope.Nutrients = res.data;
+    });
+  // $http.get('nutrition.json',{ cache: true})
+  //   .then(function(res){
+  //     $scope.Nutrients = res.data;
+  //   });
+
 })
 
 .controller('FoodGroupsCtrl', function($scope, $ionicLoading, FoodGroups) {
@@ -57,11 +43,20 @@ angular.module('NutritionPrecision.controllers', [])
     $scope.foods = foods;
     $ionicLoading.hide();
   });
-
+  $scope.clearSearch = function() {
+    $scope.food.description = '';
+  };
 })
 
-.controller('FoodDetailCtrl', function($scope, $stateParams, Nutrition) {
+.controller('FoodDetailCtrl', function($scope, $stateParams, $ionicLoading, Nutrition) {
   // $scope.friend = Friends.get($stateParams.friendId);
+  $scope.loadingIndicator = $ionicLoading.show({
+    content: 'Loading Data',
+    animation: 'fade-in',
+    showBackdrop: false,
+    maxWidth: 200,
+    showDelay: 500
+  });
   Nutrition.getFoodDetail($stateParams.id).success(function(details) {
   	// console.log(details[0]);
     $scope.description = details[0].description;
@@ -89,6 +84,7 @@ angular.module('NutritionPrecision.controllers', [])
           pattern: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
       }
     });
+    $ionicLoading.hide();
   });
 
   $scope.topTen = function(item){
