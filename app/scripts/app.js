@@ -70,7 +70,6 @@ angular.module('NutritionPrecision', ['ionic', 'UserApp', 'NutritionPrecision.co
         }
       }
     })
-
     .state('tab.foodgroups', {
       url: '/foodgroups',
       views: {

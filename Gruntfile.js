@@ -1,4 +1,4 @@
-// Generated on 2014-06-27 using generator-ionic 0.3.5
+// Generated on 2014-08-07 using generator-ionic 0.4.1
 'use strict';
 
 var _ = require('lodash');
@@ -26,6 +26,34 @@ module.exports = function (grunt) {
       images: 'images'
     },
 
+    // Environment Variables for Angular App
+    // This creates an Angular Module that can be injected using via ENV
+    // Add any desired constants to the ENV objects below.
+    ngconstant: {
+      options: {
+        space: '  ',
+        wrap: '"use strict";\n\n {%= __ngModule %}',
+        name: 'config',
+        dest: '<%= yeoman.app %>/scripts/config.js'
+      },
+      development: {
+        constants: {
+          ENV: {
+            name: 'development',
+            apiEndpoint: 'http://dev.yoursite.com:10000/'
+          }
+        }
+      },
+      production: {
+        constants: {
+          ENV: {
+            name: 'production',
+            apiEndpoint: 'http://api.yoursite.com/'
+          }
+        }
+      }
+    },
+
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       js: {
@@ -40,7 +68,8 @@ module.exports = function (grunt) {
         tasks: ['newer:copy:styles', 'autoprefixer']
       },
       gruntfile: {
-        files: ['Gruntfile.js']
+        files: ['Gruntfile.js'],
+        tasks: ['ngconstant:development']
       },
       livereload: {
         options: {
@@ -118,7 +147,7 @@ module.exports = function (grunt) {
       },
       server: '.tmp'
     },
-    
+
     autoprefixer: {
       options: {
         browsers: ['last 1 version']
@@ -140,7 +169,7 @@ module.exports = function (grunt) {
         ignorePath: '<%= yeoman.app %>/'
       }
     },
-    
+
     
 
     // Reads HTML for usemin blocks to enable smart builds that automatically
@@ -242,7 +271,7 @@ module.exports = function (grunt) {
         dest: 'www/'
       }
     },
-    
+
     concurrent: {
       server: [
         'copy:styles',
@@ -332,10 +361,9 @@ module.exports = function (grunt) {
       }
     },
 
-    // ngmin tries to make the code safe for minification automatically by
-    // using the Angular long form for dependency injection. It doesn't work on
-    // things like resolve or inject so those have to be done manually.
-    ngmin: {
+    // ngAnnotate tries to make the code safe for minification automatically by
+    // using the Angular long form for dependency injection.
+    ngAnnotate: {
       dist: {
         files: [{
           expand: true,
@@ -359,7 +387,8 @@ module.exports = function (grunt) {
         this.args = this.args.slice(0, -2).concat(_.last(this.args, 2).join(':'));
       }
       var done = this.async();
-      var cmd = path.resolve('./node_modules/cordova/bin', 'cordova');
+      var exec = process.platform === 'win32' ? 'cordova.cmd' : 'cordova';
+      var cmd = path.resolve('./node_modules/cordova/bin', exec);
       var child = spawn(cmd, this.args);
       child.stdout.on('data', function (data) {
         grunt.log.writeln(data);
@@ -376,9 +405,10 @@ module.exports = function (grunt) {
 
   // Since Apache Ripple serves assets directly out of their respective platform
   // directories, we watch all registered files and then copy all un-built assets
-  // over to www/. Last step is running ordova prepare so we can refresh the ripple
-  // browser tab to see the changes.
-  grunt.registerTask('ripple', ['bower-install', 'copy:all', 'prepare', 'ripple-emulator']);
+  // over to www/. Last step is running cordova prepare so we can refresh the ripple
+  // browser tab to see the changes. Technically ripple runs `cordova prepare` on browser
+  // refreshes, but at this time you would need to re-run the emulator to see changes.
+  grunt.registerTask('ripple', ['bower-install', 'copy:all', 'ripple-emulator']);
   grunt.registerTask('ripple-emulator', function () {
     grunt.config.set('watch', {
       all: {
@@ -421,6 +451,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'ngconstant:development',
       'bower-install',
       'concurrent:server',
       'autoprefixer',
@@ -439,12 +470,13 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'ngconstant:production',
     'bower-install',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
     'concat',
-    'ngmin',
+    'ngAnnotate',
     'copy:dist',
     'cssmin',
     'uglify',

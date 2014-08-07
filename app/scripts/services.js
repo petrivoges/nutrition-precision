@@ -1,6 +1,14 @@
 'use strict';
 angular.module('NutritionPrecision.services', [])
 
+.factory('Nutrients', function($http) {
+  return {
+      getNutrients: function() {
+          return $http.get('/static/nutrients.json',{cache: true});
+        }
+    };
+})
+
 .factory('FoodGroups', function($http) {
   return {
       getAllFoodGroups: function() {

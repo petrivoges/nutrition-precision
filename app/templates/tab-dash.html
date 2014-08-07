@@ -1,14 +1,20 @@
 <ion-view title="Dashboard">
-	<div class="bar bar-subheader">
-	    <div class="button-bar tab-bar">
-	        <a class="button">tab A</a>
-	        <a class="button">tab B</a>
-	        <a class="button">tab C</a>
-	    </div>
-	</div>
+	<ion-header-bar class="bar-subheader">
+        <div class="button-bar">
+            <div class="button-bar">
+                <a class="button" tab-state ui-sref="tabs.food">Foods</a>
+                <a class="button" tab-state ui-sref="tabs.policy">Policy</a>
+                <a class="button" tab-state ui-sref="tabs.vehicle">Vehicle</a>
+                <a class="button" tab-state ui-sref="tabs.appointment">Appointment</a>
+            </div>
+        </div>
+    </ion-header-bar>
+    <ion-view title="Button Bar as Top Tabs">        
+        <ion-nav-view name="tab-view"></ion-nav-view>
+    </ion-view>
 	<ion-content class="has-header padding">
 	    <ion-list>
-	      <ion-item ng-repeat="nutrient in Nutrients" type="item-text-wrap" href="#">
+	      <ion-item ng-repeat="nutrient in nutrients" type="item-text-wrap" href="#">
 	        {{nutrient.name}}
 	      </ion-item>
 	    </ion-list>

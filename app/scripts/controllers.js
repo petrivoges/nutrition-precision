@@ -1,16 +1,10 @@
 'use strict';
 angular.module('NutritionPrecision.controllers', [])
 
-.controller('DashCtrl', function($scope,$http) {
-  $http.get('/static/nutrients.json',{ cache: true})
-    .success(function(res){
-      $scope.Nutrients = res.data;
-    });
-  // $http.get('nutrition.json',{ cache: true})
-  //   .then(function(res){
-  //     $scope.Nutrients = res.data;
-  //   });
-
+.controller('DashCtrl', function($scope, $stateParams, Nutrients) {
+  Nutrients.getNutrients().success(function(nutrients) {
+    $scope.nutrients = nutrients; 
+  });
 })
 
 .controller('FoodGroupsCtrl', function($scope, $ionicLoading, FoodGroups) {
