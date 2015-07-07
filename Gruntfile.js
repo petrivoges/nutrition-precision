@@ -23,6 +23,7 @@ module.exports = function (grunt) {
       app: 'app',
       scripts: 'scripts',
       styles: 'styles',
+      static: 'static',
       images: 'images'
     },
 

@@ -6,7 +6,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('NutritionPrecision', ['ionic', 'UserApp', 'NutritionPrecision.controllers', 'NutritionPrecision.services'])
+angular.module('NutritionPrecision', ['ionic','UserApp', 'NutritionPrecision.controllers', 'NutritionPrecision.services'])
 
 .run(function($ionicPlatform, user) {
   user.init({ appId: '534da3fc24110' });
